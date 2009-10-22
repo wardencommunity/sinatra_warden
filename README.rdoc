@@ -4,6 +4,25 @@ Provides a module for basic helpers and actions needed for user
 authentication using Warden with Sinatra. In addition to a
 collection of authentication strategies.
 
+== Usage
+
+require 'sinatra'
+require 'sinatra_warden'
+
+class Application < Sinatra::Base
+  register SinatraWarden
+
+  get '/admin' do
+    authorize!('/login') # require session, redirect to '/login' instead of work
+    haml :admin
+  end
+
+  get '/dashboard' do
+    authorize! # require a session for this action
+    haml :dashboard
+  end
+end
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
