@@ -23,6 +23,10 @@ collection of authentication strategies.
     end
   end
 
+== Issues
+
+* Currently assumes you have a model named 'User' and an email &  password field.
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
