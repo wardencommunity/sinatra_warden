@@ -1,6 +1,8 @@
 = sinatra_warden
 
-Description goes here.
+Provides a module for basic helpers and actions needed for user 
+authentication using Warden with Sinatra. In addition to a
+collection of authentication strategies.
 
 == Note on Patches/Pull Requests
  
@@ -15,4 +17,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2009 jsmestad. See LICENSE for details.
+Copyright (c) 2009 Justin Smestad. See LICENSE for details.

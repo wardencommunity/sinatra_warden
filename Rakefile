@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rake'
+require 'bundler'
 
 begin
   require 'jeweler'
@@ -9,9 +10,14 @@ begin
     gem.description = %Q{TODO: longer description of your gem}
     gem.email = "justin.smestad@gmail.com"
     gem.homepage = "http://github.com/jsmestad/sinatra_warden"
-    gem.authors = ["jsmestad"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    gem.add_development_dependency "yard", ">= 0"
+    gem.authors = ["Justin Smestad"]
+
+    manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
+    manifest.dependencies.each do |d|
+      next if d.only && d.only.include?('test')
+      gem.add_dependency(d.name, d.version)
+    end
+
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
