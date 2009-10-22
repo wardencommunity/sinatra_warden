@@ -6,22 +6,22 @@ collection of authentication strategies.
 
 == Usage
 
-require 'sinatra'
-require 'sinatra_warden'
+  require 'sinatra'
+  require 'sinatra_warden'
 
-class Application < Sinatra::Base
-  register SinatraWarden
+  class Application < Sinatra::Base
+    register SinatraWarden
 
-  get '/admin' do
-    authorize!('/login') # require session, redirect to '/login' instead of work
-    haml :admin
+    get '/admin' do
+      authorize!('/login') # require session, redirect to '/login' instead of work
+      haml :admin
+    end
+
+    get '/dashboard' do
+      authorize! # require a session for this action
+      haml :dashboard
+    end
   end
-
-  get '/dashboard' do
-    authorize! # require a session for this action
-    haml :dashboard
-  end
-end
 
 == Note on Patches/Pull Requests
  
