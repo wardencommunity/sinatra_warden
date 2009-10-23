@@ -17,5 +17,7 @@ tmtags
 coverage
 rdoc
 pkg
+bin
+vendor
 
 ## PROJECT::SPECIFIC
