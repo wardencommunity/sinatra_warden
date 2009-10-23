@@ -10,6 +10,26 @@ require 'sinatra_warden'
 require 'spec'
 require 'spec/autorun'
 
-Spec::Runner.configure do |config|
+DataMapper.setup(:default, 'sqlite3::memory:')
 
+%w(fixtures support).each do |path|
+  Dir[ File.join( project_root, path, '/**/*.rb') ].each do |m|
+    require m
+  end
 end
+
+Spec::Runner.configure do |config|
+  config.include(Rack::Test::Methods)
+
+  config.before(:each) do
+    DataMapper.auto_migrate!
+  end
+
+  def app
+    @app ||= Rack::Builder.app do
+      use Rack::Session::Cookie
+      run TestingLogin.app
+    end
+  end
+end
+
