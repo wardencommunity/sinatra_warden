@@ -10,7 +10,7 @@ class User
 
   def password=(new_password)
     @password = BCrypt::Password.create(new_password)
-    attribute_set(encrypted_password, @password)
+    self.encrypted_password = @password
   end
 
   def password
