@@ -25,7 +25,7 @@ module SinatraWarden
 
     # Require authorization for an action
     def authorize!(failure_path=nil)
-      redirect_to(failure_path ? failure_path : '/') unless authenticated?
+      redirect(failure_path ? failure_path : '/') unless authenticated?
     end
   end
 
@@ -34,7 +34,7 @@ module SinatraWarden
 
     app.post '/unauthenticated/?' do
       status 401
-      flash[:error] = "Could not log you in"
+      flash[:error] = "Could not log you in" if defined?(Rack::Flash)
       haml :login
     end
 
@@ -44,14 +44,14 @@ module SinatraWarden
 
     app.post '/login/?' do
       env['warden'].authenticate!
-      flash[:success] = "You have logged in successfully."
-      redirect "/"
+      flash[:success] = "You have logged in successfully." if defined?(Rack::Flash)
+      redirect back
     end
 
     app.get '/logout/?' do
       env['warden'].logout
-      flash[:success] = "You are now logged out."
-      redirect '/'
+      flash[:success] = "You are now logged out." if defined?(Rack::Flash)
+      redirect back
     end
   end
 end
