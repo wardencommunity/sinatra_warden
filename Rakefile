@@ -10,7 +10,7 @@ begin
     gem.description = %Q{basic helpers and authentication methods for using warden with sinatra also providing some hooks into Rack::Flash}
     gem.email = "justin.smestad@gmail.com"
     gem.homepage = "http://github.com/jsmestad/sinatra_warden"
-    gem.authors = ["Justin Smestad"]
+    gem.authors = ["Justin Smestad", "Daniel Neighman"]
 
     manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
     manifest.dependencies.each do |d|

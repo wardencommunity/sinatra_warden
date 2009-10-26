@@ -38,6 +38,11 @@ collection of authentication strategies.
    bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
+== Contributers
+
+* Justin Smestad (http://github.com/jsmestad)
+* Daniel Neighman (http://github.com/hassox)
+
 == Copyright
 
 Copyright (c) 2009 Justin Smestad. See LICENSE for details.
