@@ -8,11 +8,10 @@ Gem::Specification.new do |s|
   s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Justin Smestad"]
-  s.date = %q{2009-10-26}
+  s.authors = ["Justin Smestad", "Daniel Neighman"]
+  s.date = %q{2009-10-31}
   s.description = %q{basic helpers and authentication methods for using warden with sinatra also providing some hooks into Rack::Flash}
   s.email = %q{justin.smestad@gmail.com}
-  s.executables = ["autospec", "rackup", "rake", "rcov", "spec", "yard-graph", "yardoc", "yri"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -27,8 +26,7 @@ Gem::Specification.new do |s|
      "VERSION",
      "lib/sinatra_warden.rb",
      "lib/sinatra_warden/sinatra.rb",
-     "lib/sinatra_warden/strategies/bcrypt_activerecord.rb",
-     "lib/sinatra_warden/strategies/bcrypt_datamapper.rb",
+     "sinatra_warden.gemspec",
      "spec/fixtures/bcrypt_strategy.rb",
      "spec/fixtures/testing_login.rb",
      "spec/fixtures/user.rb",
