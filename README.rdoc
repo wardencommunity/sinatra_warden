@@ -8,7 +8,7 @@ Provides a module for basic helpers and actions needed for user authentication u
   require 'sinatra_warden'
 
   class Application < Sinatra::Base
-    register SinatraWarden
+    register Sinatra::Warden
 
     get '/admin' do
       authorize!('/login') # require session, redirect to '/login' instead of work
@@ -20,6 +20,11 @@ Provides a module for basic helpers and actions needed for user authentication u
       haml :dashboard
     end
   end
+
+== TODO
+
+* Settable default failure route.
+* Explicit success route. 'redirect back' isn't always appropriate.
 
 == Note on Patches/Pull Requests
 
