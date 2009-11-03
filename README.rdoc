@@ -1,6 +1,6 @@
-= sinatra_warden
+= Sinatra::Warden
 
-Provides a module for basic helpers and actions needed for user authentication using Warden with Sinatra.
+A Sinatra (http://github.com/sinatra/sinatra) module that provides authentication for your Sinatra application through Warden (http://github.com/hassox/warden).
 
 == Usage
 
@@ -20,20 +20,31 @@ Provides a module for basic helpers and actions needed for user authentication u
       haml :dashboard
     end
   end
+  
+== More Information
+
+Please read the wiki (http://wiki.github.com/jsmestad/sinatra_warden) for more information on more advanced configurations.
 
 == Note on Patches/Pull Requests
+
+We use bundler on this project and disable system gems. Contributers should do the following:
+
+  $ git clone git://github.com/jsmestad/sinatra_warden.git
+  $ cd sinatra_warden
+  $ gem bundle
+  $ rake
 
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a future version unintentionally.
 * Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Contributers
+== Contributors
 
 * Justin Smestad (http://github.com/jsmestad)
 * Daniel Neighman (http://github.com/hassox)
+* Shane Hanna (http://github.com/shanna)
 
 == Copyright
 

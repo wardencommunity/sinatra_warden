@@ -1,5 +1,5 @@
 class TestingLogin < Sinatra::Base
-  register SinatraWarden
+  register Sinatra::Warden
 
   get '/dashboard' do
     authorize!('/login')

@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 ENV['RACK_ENV'] ||= 'test'
 project_root = File.expand_path(File.dirname(__FILE__))
 require File.join(project_root, '..', 'vendor', 'gems', 'environment')
-Bundler.require_env(:test)
+Bundler.require_env(:testing)
 
 require 'sinatra_warden'
 require 'spec'
@@ -13,7 +13,7 @@ require 'spec/autorun'
 DataMapper.setup(:default, 'sqlite3::memory:')
 
 %w(fixtures support).each do |path|
-  Dir[ File.join( project_root, path, '/**/*.rb') ].each do |m|
+  Dir[ File.join(project_root, path, '/**/*.rb') ].each do |m|
     require m
   end
 end
