@@ -28,13 +28,15 @@ module Sinatra
       alias_method :current_user=, :user=
 
       # Require authorization for an action
-      def authorize!(failure_path=nil)
-        redirect(failure_path ? failure_path : '/') unless authenticated?
+      def authorize!(failure_path = nil)
+        redirect(failure_path ? failure_path : options.auth_failure_path) unless authenticated?
       end
     end
 
     def self.registered(app)
       app.helpers Warden::Helpers
+      app.set :auth_failure_path, '/'
+      app.set :auth_success_path, lambda{ back}
 
       app.post '/unauthenticated/?' do
         status 401
@@ -49,13 +51,13 @@ module Sinatra
       app.post '/login/?' do
         env['warden'].authenticate!
         flash[:success] = "You have logged in successfully." if defined?(Rack::Flash)
-        redirect back
+        redirect options.auth_success_path
       end
 
       app.get '/logout/?' do
         env['warden'].logout
         flash[:success] = "You are now logged out." if defined?(Rack::Flash)
-        redirect back
+        redirect options.auth_success_path
       end
     end
   end # Warden
