@@ -1,6 +1,6 @@
 source "http://gemcutter.org"
 
-gem 'sinatra', '~> 0.10.1'
+gem 'sinatra', '>= 0.9.4'
 gem 'warden',  '~> 0.5.0'
 
 gem 'rake',                         :only => [:test]
