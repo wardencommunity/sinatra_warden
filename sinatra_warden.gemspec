@@ -5,13 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sinatra_warden}
-  s.version = "0.0.1"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Justin Smestad", "Daniel Neighman"]
   s.date = %q{2009-11-03}
   s.description = %q{basic helpers and authentication methods for using warden with sinatra also providing some hooks into Rack::Flash}
   s.email = %q{justin.smestad@gmail.com}
+  s.executables = ["autospec", "rackup", "rake", "rcov", "spec", "yard-graph", "yardoc", "yri"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -54,13 +55,37 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<sinatra>, [">= 0.9.4"])
       s.add_runtime_dependency(%q<warden>, ["~> 0.5.0"])
+      s.add_runtime_dependency(%q<rake>, [">= 0"])
+      s.add_runtime_dependency(%q<rspec>, ["~> 1.2.9"])
+      s.add_runtime_dependency(%q<yard>, [">= 0"])
+      s.add_runtime_dependency(%q<rack-test>, ["~> 0.5.0"])
+      s.add_runtime_dependency(%q<rcov>, [">= 0"])
+      s.add_runtime_dependency(%q<do_sqlite3>, ["~> 0.10.0"])
+      s.add_runtime_dependency(%q<dm-core>, ["~> 0.10.1"])
+      s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 0"])
     else
       s.add_dependency(%q<sinatra>, [">= 0.9.4"])
       s.add_dependency(%q<warden>, ["~> 0.5.0"])
+      s.add_dependency(%q<rake>, [">= 0"])
+      s.add_dependency(%q<rspec>, ["~> 1.2.9"])
+      s.add_dependency(%q<yard>, [">= 0"])
+      s.add_dependency(%q<rack-test>, ["~> 0.5.0"])
+      s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<do_sqlite3>, ["~> 0.10.0"])
+      s.add_dependency(%q<dm-core>, ["~> 0.10.1"])
+      s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
     end
   else
     s.add_dependency(%q<sinatra>, [">= 0.9.4"])
     s.add_dependency(%q<warden>, ["~> 0.5.0"])
+    s.add_dependency(%q<rake>, [">= 0"])
+    s.add_dependency(%q<rspec>, ["~> 1.2.9"])
+    s.add_dependency(%q<yard>, [">= 0"])
+    s.add_dependency(%q<rack-test>, ["~> 0.5.0"])
+    s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<do_sqlite3>, ["~> 0.10.0"])
+    s.add_dependency(%q<dm-core>, ["~> 0.10.1"])
+    s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
   end
 end
 
