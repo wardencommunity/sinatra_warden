@@ -21,11 +21,6 @@ Provides a module for basic helpers and actions needed for user authentication u
     end
   end
 
-== TODO
-
-* Settable default failure route.
-* Explicit success route. 'redirect back' isn't always appropriate.
-
 == Note on Patches/Pull Requests
 
 * Fork the project.
