@@ -24,7 +24,8 @@ describe "SinatraWarden" do
     it "should allow us to logout after logging in" do
       post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
       last_request.env['warden'].authenticated?.should == true
-      pending
+      get '/logout'
+      last_request.env['warden'].authenticated?.should == false
     end
 
   end
