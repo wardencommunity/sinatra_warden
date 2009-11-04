@@ -32,7 +32,7 @@ We use bundler on this project and disable system gems. Contributers should do t
   $ git clone git://github.com/jsmestad/sinatra_warden.git
   $ cd sinatra_warden
   $ gem bundle
-  $ rake
+  $ ./bin/rake
 
 * Fork the project.
 * Make your feature addition or bug fix.
