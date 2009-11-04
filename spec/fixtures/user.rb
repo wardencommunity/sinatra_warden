@@ -1,20 +1,14 @@
-require 'dm-core'
-require 'bcrypt'
 
 class User
   include DataMapper::Resource
 
   property :id, Serial
   property :email, String
-  property :encrypted_password, String
+  property :password, String
 
-  def password=(new_password)
-    @password = BCrypt::Password.create(new_password)
-    self.encrypted_password = @password
-  end
-
-  def password
-    @password ||= BCrypt::Password.new(encrypted_password)
+  def self.authenticate(email, password)
+    u = self.first(:email => email)
+    u.password == password ? u : nil
   end
 
 end

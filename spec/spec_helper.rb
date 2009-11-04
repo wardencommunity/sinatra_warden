@@ -28,7 +28,12 @@ Spec::Runner.configure do |config|
   def app
     @app ||= Rack::Builder.app do
       use Rack::Session::Cookie
-      run TestingLogin.app
+      use Warden::Manager do |manager|
+        manager.default_strategies :password
+        manager.failure_app = TestingLogin
+      end
+      use Rack::Flash
+      run TestingLogin
     end
   end
 end

@@ -1,4 +1,5 @@
-require 'rubygems'
+require File.join(File.expand_path(File.dirname(__FILE__)), 'vendor', 'gems', 'environment')
+Bundler.require_env
 require 'rake'
 require 'bundler'
 
@@ -14,11 +15,10 @@ begin
 
     manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
     manifest.dependencies.each do |d|
-      next if d.only && d.only.include?('test')
+      next if d.only && d.only.include?('testing')
       gem.add_dependency(d.name, d.version)
     end
 
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -36,8 +36,6 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
 end
-
-task :spec => :check_dependencies
 
 task :default => :spec
 

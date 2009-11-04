@@ -11,7 +11,10 @@ describe "SinatraWarden" do
 
   context "the authentication system" do
 
-    it "should allow us to login as that user"
+    it "should allow us to login as that user" do
+      post '/login', :email => 'justin.smestad@gmail.com', :email => 'thedude'
+      last_response.should be_ok
+    end
 
     it "should allow us to logout after logging in"
 
