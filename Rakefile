@@ -15,7 +15,7 @@ begin
 
     manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
     manifest.dependencies.each do |d|
-      next if d.only && d.only.include?(:testing)
+      next if d.only
       gem.add_dependency(d.name, d.version)
     end
     
