@@ -1,7 +1,7 @@
 module Sinatra
   module Warden
     module Helpers
-      
+
       # The main accessor for the warden proxy instance
       def warden
         request.env['warden']
@@ -35,9 +35,9 @@ module Sinatra
 
     def self.registered(app)
       app.helpers Warden::Helpers
-      
+
       app.set :auth_failure_path, '/'
-      app.set :auth_success_path, lambda{ back }
+      app.set :auth_success_path, lambda { back }
 
       app.set :auth_error_message, "Could not log you in."
       app.set :auth_success_message, "You have logged in successfully."
@@ -46,7 +46,7 @@ module Sinatra
 
       app.post '/unauthenticated/?' do
         status 401
-        flash[:error] = "Could not log you in." if defined?(Rack::Flash)
+        flash[:error] = options.auth_error_message if defined?(Rack::Flash)
         options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
       end
 
@@ -61,8 +61,9 @@ module Sinatra
       end
 
       app.get '/logout/?' do
+        authorize!
         env['warden'].logout
-        flash[:success] = options.auth_error_message if defined?(Rack::Flash)
+        flash[:success] = options.auth_success_message if defined?(Rack::Flash)
         redirect options.auth_success_path
       end
     end

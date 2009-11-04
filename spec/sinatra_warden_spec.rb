@@ -9,16 +9,23 @@ describe "SinatraWarden" do
     @user.new?.should be_false
   end
 
+  it "should create successfully" do
+    @user.password.should == "thedude"
+    User.authenticate('justin.smestad@gmail.com', 'thedude').should == @user
+  end
+
   context "the authentication system" do
 
     it "should allow us to login as that user" do
-      post '/login', :email => 'justin.smestad@gmail.com', :email => 'thedude'
-      last_response.should be_ok
+      post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+      last_request.env['warden'].authenticated?.should == true
     end
 
-    it "should allow us to logout after logging in"
-
-    it "should redirect to root"
+    it "should allow us to logout after logging in" do
+      post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+      last_request.env['warden'].authenticated?.should == true
+      pending
+    end
 
   end
 
@@ -26,11 +33,24 @@ describe "SinatraWarden" do
 
     context "the authorize! helper" do
 
-      it "should redirect to root if not logged in"
+      it "should redirect to root (default) if not logged in" do
+        get '/admin'
+        follow_redirect!
+        last_request.url.should == 'http://example.org/'
+      end
 
-      it "should redirect to the passed path if available"
+      it "should redirect to the passed path if available" do
+        get '/dashboard'
+        follow_redirect!
+        last_request.url.should == 'http://example.org/login'
+      end
 
-      it "should allow access if user is logged in"
+      it "should allow access if user is logged in" do
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        last_request.env['warden'].authenticated?.should == true
+        get '/dashboard'
+        last_response.body.should == "My Dashboard"
+      end
 
     end
 
