@@ -15,7 +15,6 @@ describe "SinatraWarden" do
   end
 
   context "the authentication system" do
-
     it "should allow us to login as that user" do
       post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
       last_request.env['warden'].authenticated?.should == true
@@ -27,13 +26,11 @@ describe "SinatraWarden" do
       get '/logout'
       last_request.env['warden'].authenticated?.should == false
     end
-
   end
 
   context "the helpers" do
 
     context "the authorize! helper" do
-
       it "should redirect to root (default) if not logged in" do
         get '/admin'
         follow_redirect!
@@ -52,17 +49,16 @@ describe "SinatraWarden" do
         get '/dashboard'
         last_response.body.should == "My Dashboard"
       end
-
     end
 
     context "the user helper" do
-
-      it "should be aliased to current_user"
+      it "should be aliased to current_user" do
+        p TestingLogin::Helpers
+      end
 
       it "should allow assignment of the user (user=)"
 
       it "should return the current logged in user"
-
     end
 
     context "the authenticated? helper" do
