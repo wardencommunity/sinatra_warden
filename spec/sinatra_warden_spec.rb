@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "SinatraWarden" do
+describe "Sinatra::Warden" do
   before(:each) do
     @user = User.create(:email => 'justin.smestad@gmail.com', :password => 'thedude')
   end
@@ -52,11 +52,28 @@ describe "SinatraWarden" do
     end
 
     context "the user helper" do
-      it "should be aliased to current_user"
+      before(:each) do
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        last_request.env['warden'].authenticated?.should == true
+      end
 
-      it "should allow assignment of the user (user=)"
+      it "should be aliased to current_user" do
+        get '/admin'
+        last_response.body.should == "Welcome #{@user.email}"
+      end
 
-      it "should return the current logged in user"
+      it "should allow assignment of the user (user=)" do
+        john = User.create(:email => 'john.doe@hotmail.com', :password => 'secret')
+        last_request.env['warden'].user.should == @user
+        post '/login_as', 'email' => 'john.doe@hotmail.com', 'password' => 'secret'
+        last_request.env['warden'].user.should == john
+      end
+
+      it "should return the current logged in user" do
+        get '/account'
+        last_response.body.should == "#{@user.email}'s account page"
+      end
+
     end
 
     context "the authenticated? helper" do

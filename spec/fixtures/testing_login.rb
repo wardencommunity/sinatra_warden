@@ -11,8 +11,19 @@ class TestingLogin < Sinatra::Base
     "My Dashboard"
   end
 
+  get '/account' do
+    authorize!
+    "#{user.email}'s account page"
+  end
+
+  post '/login_as/?' do
+    authorize!
+    user = User.authenticate(params['email'], params['password'])
+  end
+
   get '/admin' do
     authorize!
+    "Welcome #{current_user.email}"
   end
 
 end
