@@ -20,7 +20,6 @@ end
 
 Spec::Runner.configure do |config|
   config.include(Rack::Test::Methods)
-  config.include(TestingLogin::Helpers)
 
   config.before(:each) do
     DataMapper.auto_migrate!

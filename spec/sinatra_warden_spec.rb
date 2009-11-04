@@ -52,9 +52,7 @@ describe "SinatraWarden" do
     end
 
     context "the user helper" do
-      it "should be aliased to current_user" do
-        p TestingLogin::Helpers
-      end
+      it "should be aliased to current_user"
 
       it "should allow assignment of the user (user=)"
 
