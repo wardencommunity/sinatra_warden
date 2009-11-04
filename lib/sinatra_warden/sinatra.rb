@@ -62,7 +62,7 @@ module Sinatra
 
       app.get '/logout/?' do
         authorize!
-        env['warden'].logout
+        env['warden'].logout(:default)
         flash[:success] = options.auth_success_message if defined?(Rack::Flash)
         redirect options.auth_success_path
       end
