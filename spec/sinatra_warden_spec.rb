@@ -76,19 +76,37 @@ describe "Sinatra::Warden" do
 
     end
 
-    context "the authenticated? helper" do
+    context "the logged_in/authenticated? helper" do
+      before(:each) do
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        last_request.env['warden'].authenticated?.should == true
+      end
 
-      it "should be aliased as logged_in?"
+      it "should be aliased as logged_in?" do
+        get '/check_login'
+        last_response.body.should == "Hello Moto"
+      end
 
-      it "should return true when a user is authenticated"
+      it "should return false when a user is not authenticated" do
+        get '/logout'
+        last_request.env['warden'].authenticated?.should == false
 
-      it "should return false when a user is not authenticated"
+        get '/check_login'
+        last_response.body.should == "Get out!"
+      end
 
     end
 
     context "the warden helper" do
+      before(:each) do
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        last_request.env['warden'].authenticated?.should == true
+      end
 
-      it "returns the environment variables from warden"
+      it "returns the environment variables from warden" do
+        get '/warden'
+        last_response.body.should_not be_nil
+      end
 
     end
   end

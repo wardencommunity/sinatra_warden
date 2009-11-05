@@ -11,14 +11,23 @@ class TestingLogin < Sinatra::Base
     "My Dashboard"
   end
 
+  get '/warden' do
+    authorize!
+    "#{warden}"
+  end
+
+  get '/check_login' do
+    logged_in? ? "Hello Moto" : "Get out!"
+  end
+
   get '/account' do
     authorize!
     "#{user.email}'s account page"
   end
 
-  post '/login_as/?' do
+  post '/login_as' do
     authorize!
-    user = User.authenticate(params['email'], params['password'])
+    self.user = User.authenticate(params['email'], params['password'])
   end
 
   get '/admin' do

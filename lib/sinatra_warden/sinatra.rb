@@ -20,9 +20,11 @@ module Sinatra
       alias_method :current_user, :user
 
       # Set the currently logged in user
+      #   Usage: self.user = @user
+      #
       # @params [User] the user you want to log in
-      def user=(user)
-        warden.set_user user
+      def user=(new_user)
+        warden.set_user(new_user)
       end
       alias_method :current_user=, :user=
 
