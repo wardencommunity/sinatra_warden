@@ -111,4 +111,18 @@ describe "Sinatra::Warden" do
     end
   end
 
+  context "Rack::Flash integration" do
+
+    it "should return a success message" do
+      post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+      last_request.env['rack.session'][:__FLASH__][:success].should == "You have logged in successfully."
+    end
+
+    it "should return an error message" do
+      post '/login', 'email' => 'bad', 'password' => 'wrong'
+      last_request.env['rack.session'][:__FLASH__][:error].should == "Could not log you in."
+    end
+
+  end
+
 end

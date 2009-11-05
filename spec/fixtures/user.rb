@@ -8,7 +8,7 @@ class User
 
   def self.authenticate(email, password)
     u = self.first(:email => email)
-    u.password == password ? u : nil
+    u && u.password == password ? u : nil
   end
 
 end
