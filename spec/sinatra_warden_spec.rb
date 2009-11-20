@@ -45,7 +45,7 @@ describe "Sinatra::Warden" do
 
       it "should allow access if user is logged in" do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        last_request.env['warden'].authenticated?.should == true
+        last_request.env['warden'].authenticated?.should be_true
         get '/dashboard'
         last_response.body.should == "My Dashboard"
       end
@@ -54,7 +54,7 @@ describe "Sinatra::Warden" do
     context "the user helper" do
       before(:each) do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        last_request.env['warden'].authenticated?.should == true
+        last_request.env['warden'].authenticated?.should be_true
       end
 
       it "should be aliased to current_user" do
@@ -79,7 +79,7 @@ describe "Sinatra::Warden" do
     context "the logged_in/authenticated? helper" do
       before(:each) do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        last_request.env['warden'].authenticated?.should == true
+        last_request.env['warden'].authenticated?.should be_true
       end
 
       it "should be aliased as logged_in?" do
@@ -89,7 +89,7 @@ describe "Sinatra::Warden" do
 
       it "should return false when a user is not authenticated" do
         get '/logout'
-        last_request.env['warden'].authenticated?.should == false
+        last_request.env['warden'].authenticated?.should be_false
 
         get '/check_login'
         last_response.body.should == "Get out!"
@@ -100,7 +100,7 @@ describe "Sinatra::Warden" do
     context "the warden helper" do
       before(:each) do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        last_request.env['warden'].authenticated?.should == true
+        last_request.env['warden'].authenticated?.should be_true
       end
 
       it "returns the environment variables from warden" do
