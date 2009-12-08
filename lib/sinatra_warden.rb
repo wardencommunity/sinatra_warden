@@ -1,4 +1,3 @@
-Bundler.require_env
 require File.join(File.dirname(__FILE__), 'sinatra_warden', 'sinatra')
 
 Warden::Manager.before_failure do |env, opts|
