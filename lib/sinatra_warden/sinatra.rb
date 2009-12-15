@@ -45,6 +45,10 @@ module Sinatra
       app.set :auth_success_message, "You have logged in successfully."
       app.set :auth_use_erb, false
       app.set :auth_login_template, :login
+      
+      # OAuth Specific Settings
+      app.set :auth_use_oauth, false
+      app.set :auth_oauth_authorize_url, "http://twitter.com/oauth/authorize"
 
       app.post '/unauthenticated/?' do
         status 401
@@ -53,7 +57,11 @@ module Sinatra
       end
 
       app.get '/login/?' do
-         options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
+        if auth_use_oauth && !auth_oauth_authorize_url.nil?
+          options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
+        else
+          redirect auth_oauth_authorize_url
+        end
       end
 
       app.post '/login/?' do
