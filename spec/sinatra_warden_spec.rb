@@ -125,4 +125,12 @@ describe "Sinatra::Warden" do
 
   end
 
+  context "OAuth support" do
+
+    it "should redirect to authorize_url when enabled"
+
+    it "should render the login form, as default, when disabled"
+
+  end
+
 end
