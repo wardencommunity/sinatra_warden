@@ -24,7 +24,7 @@ Spec::Runner.configure do |config|
   end
 
   def app
-    @app = Rack::Builder.app do
+    @app ||= Rack::Builder.app do
       use Rack::Session::Cookie
       use Warden::Manager do |manager|
         manager.default_strategies :password

@@ -132,7 +132,7 @@ describe "Sinatra::Warden" do
         #@app = app
       end
 
-      it "should redirect to authorize_url when enabled" do
+      it "should redirect to authorize_url" do
         pending
         get '/login'
         follow_redirect!
