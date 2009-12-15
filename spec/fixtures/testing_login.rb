@@ -5,7 +5,6 @@ class TestingLogin < Sinatra::Base
   set :sessions, true
 
   set :auth_success_path, '/welcome'
-
   get '/dashboard' do
     authorize!('/login')
     "My Dashboard"

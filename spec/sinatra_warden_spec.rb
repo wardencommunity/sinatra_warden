@@ -126,11 +126,27 @@ describe "Sinatra::Warden" do
   end
 
   context "OAuth support" do
+    context "when enabled" do
+      before(:each) do
+        #TestingLogin.set(:auth_use_oauth, true)
+        #@app = app
+      end
 
-    it "should redirect to authorize_url when enabled"
+      it "should redirect to authorize_url when enabled" do
+        pending
+        get '/login'
+        follow_redirect!
+        last_request.url.should == "http://twitter.com/oauth/authorize"
+      end
 
-    it "should render the login form, as default, when disabled"
+      it "should redirect to a custom authorize_url, if set" do
+        pending
+        get '/login'
+        follow_redirect!
+        last_request.url.should == "http://facebook.com"
+      end
 
+    end
   end
 
 end

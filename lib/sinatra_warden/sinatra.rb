@@ -57,10 +57,10 @@ module Sinatra
       end
 
       app.get '/login/?' do
-        if auth_use_oauth && !auth_oauth_authorize_url.nil?
+        if options.auth_use_oauth && options.auth_oauth_authorize_url
+          redirect options.auth_oauth_authorize_url
+        else          
           options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
-        else
-          redirect auth_oauth_authorize_url
         end
       end
 
