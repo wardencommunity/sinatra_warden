@@ -55,14 +55,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<sinatra>, [">= 0.9.4"])
-      s.add_runtime_dependency(%q<warden>, [">= 0.5.0"])
+      s.add_runtime_dependency(%q<warden>, [">= 0.5.3"])
     else
       s.add_dependency(%q<sinatra>, [">= 0.9.4"])
-      s.add_dependency(%q<warden>, [">= 0.5.0"])
+      s.add_dependency(%q<warden>, [">= 0.5.3"])
     end
   else
     s.add_dependency(%q<sinatra>, [">= 0.9.4"])
-    s.add_dependency(%q<warden>, [">= 0.5.0"])
+    s.add_dependency(%q<warden>, [">= 0.5.3"])
   end
 end
 

@@ -1,4 +1,4 @@
-source "http://gemcutter.org"
+source :gemcutter
 
 group :runtime do
   gem 'sinatra',        '>= 0.9.4'
