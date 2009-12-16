@@ -7,9 +7,9 @@ end
 
 group :test do
   gem 'rake'
-  gem 'jeweler'
+  gem 'jeweler',        '~> 1.3.0'
   gem 'bundler',        '~> 0.9.7'
-  gem 'rspec',          '~> 1.2.9', :require => 'spec'
+  gem 'rspec',          '~> 1.2.9',   :require_as => 'spec'
   gem 'yard'
   gem 'rack-test',      '~> 0.5.0', :require => 'rack/test'
   gem 'rcov'
