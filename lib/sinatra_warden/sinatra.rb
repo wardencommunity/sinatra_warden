@@ -22,14 +22,14 @@ module Sinatra
       # Set the currently logged in user
       #   Usage: self.user = @user
       #
-      # @params [User] the user you want to log in
+      # @param [User] the user you want to log in
       def user=(new_user)
         warden.set_user(new_user)
       end
       alias_method :current_user=, :user=
 
       # Require authorization for an action
-      # @params [String] path to redirect to if user is unauthenticated
+      # @param [String] path to redirect to if user is unauthenticated
       def authorize!(failure_path=nil)
         redirect(failure_path ? failure_path : options.auth_failure_path) unless authenticated?
       end
