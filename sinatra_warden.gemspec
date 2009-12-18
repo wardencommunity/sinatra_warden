@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sinatra_warden}
-  s.version = "0.1.9"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Justin Smestad", "Daniel Neighman"]
-  s.date = %q{2009-12-16}
+  s.date = %q{2009-12-18}
   s.description = %q{basic helpers and authentication methods for using warden with sinatra also providing some hooks into Rack::Flash}
   s.email = %q{justin.smestad@gmail.com}
   s.executables = ["autospec", "css2sass", "edit_json.rb", "haml", "html2haml", "jeweler", "prettify_json.rb", "rackup", "rake", "rcov", "rubyforge", "sass", "spec", "yard-graph", "yardoc", "yri"]

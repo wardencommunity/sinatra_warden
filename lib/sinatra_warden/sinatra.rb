@@ -39,6 +39,9 @@ module Sinatra
     def self.registered(app)
       app.helpers Warden::Helpers
 
+      # Enable Sessions
+      app.set :sessions, true
+
       app.set :auth_failure_path, '/'
       app.set :auth_success_path, lambda { back }
 
@@ -49,7 +52,6 @@ module Sinatra
       
       # OAuth Specific Settings
       app.set :auth_use_oauth, false
-      app.set :auth_oauth_authorize_url, nil
 
       app.post '/unauthenticated/?' do
         status 401
@@ -58,8 +60,10 @@ module Sinatra
       end
 
       app.get '/login/?' do
-        if options.auth_use_oauth && !options.auth_oauth_authorize_url.nil?
-          redirect options.auth_oauth_authorize_url
+        if options.auth_use_oauth && !@auth_oauth_request_token.nil?
+          session[:request_token] = @auth_oauth_request_token.token
+          session[:request_token_secret] = @auth_oauth_request_token.secret
+          redirect @auth_oauth_request_token.authorize_url
         else          
           options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
         end
