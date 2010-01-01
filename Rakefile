@@ -13,12 +13,12 @@ begin
     gem.homepage = "http://github.com/jsmestad/sinatra_warden"
     gem.authors = ["Justin Smestad", "Daniel Neighman"]
 
-    manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
+    manifest = Bundler::Dsl.load_gemfile(File.dirname(__FILE__) + '/Gemfile')
     manifest.dependencies.each do |d|
       next if d.only
       gem.add_dependency(d.name, d.version)
     end
-    
+
     gem.executables = nil
   end
   Jeweler::GemcutterTasks.new
