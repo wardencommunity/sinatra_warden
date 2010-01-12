@@ -1,7 +1,7 @@
 source "http://gemcutter.org"
 
 gem 'sinatra',        '>= 0.9.4'
-gem 'warden',         '~> 0.5.0'
+gem 'warden',         '>= 0.5.0'
 
 gem 'rake',                         :only => :testing
 gem 'jeweler',                      :only => :testing
