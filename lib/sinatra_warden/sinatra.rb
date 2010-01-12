@@ -41,14 +41,14 @@ module Sinatra
       app.set :auth_failure_path, '/'
       app.set :auth_success_path, lambda { back }
 
-      app.set :auth_error_message, "Could not log you in."
+      app.set :auth_error_message,   "Could not log you in."
       app.set :auth_success_message, "You have logged in successfully."
       app.set :auth_use_erb, false
       app.set :auth_login_template, :login
 
       app.post '/unauthenticated/?' do
         status 401
-        flash[:error] = options.auth_error_message if defined?(Rack::Flash)
+        flash[:error] = (env['warden'].message || options.auth_error_message) if defined?(Rack::Flash)
         options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
       end
 
