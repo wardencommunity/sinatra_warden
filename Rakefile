@@ -13,10 +13,13 @@ begin
     gem.homepage = "http://github.com/jsmestad/sinatra_warden"
     gem.authors = ["Justin Smestad", "Daniel Neighman"]
 
-    manifest = Bundler::Dsl.load_gemfile(File.dirname(__FILE__) + '/Gemfile')
-    manifest.dependencies.each do |d|
-      next if d.only
-      gem.add_dependency(d.name, d.version)
+    manifest = Bundler::Bundle.load(File.dirname(__FILE__) + '/Gemfile')
+    manifest.environment.dependencies.each do |dependency|
+      if dependency.only
+        gem.add_development_dependency(dependency.name, dependency.version.to_s)
+      else
+        gem.add_dependency(dependency.name, dependency.version.to_s)
+      end
     end
 
     gem.executables = nil
