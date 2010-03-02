@@ -1,5 +1,3 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), 'vendor', 'gems', 'environment')
-Bundler.require_env
 require 'rake'
 require 'bundler'
 
@@ -13,16 +11,11 @@ begin
     gem.homepage = "http://github.com/jsmestad/sinatra_warden"
     gem.authors = ["Justin Smestad", "Daniel Neighman"]
 
-    manifest = Bundler::Bundle.load(File.dirname(__FILE__) + '/Gemfile')
-    manifest.environment.dependencies.each do |dependency|
-      if dependency.only
-        gem.add_development_dependency(dependency.name, dependency.version.to_s)
-      else
-        gem.add_dependency(dependency.name, dependency.version.to_s)
-      end
+    bundle = Bundler::Definition.from_gemfile('Gemfile')
+    bundle.dependencies.each do |dep|
+      next unless dep.groups.include?(:runtime)
+      gem.add_dependency(dep.name, dep.version_requirements.to_s)
     end
-
-    gem.executables = nil
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

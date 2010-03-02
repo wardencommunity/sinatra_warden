@@ -27,12 +27,10 @@ Please read the wiki (http://wiki.github.com/jsmestad/sinatra_warden) for more i
 
 == Note on Patches/Pull Requests
 
-We use bundler on this project and disable system gems. Contributers should do the following:
-
   $ git clone git://github.com/jsmestad/sinatra_warden.git
   $ cd sinatra_warden
-  $ gem bundle
-  $ ./bin/rake
+  $ bundle install
+  $ bundle exec rake
 
 * Fork the project.
 * Make your feature addition or bug fix.
