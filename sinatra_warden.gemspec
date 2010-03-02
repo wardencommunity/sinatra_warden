@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sinatra_warden}
-  s.version = "0.2.0"
+  s.version = "0.2.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Justin Smestad", "Daniel Neighman"]
-  s.date = %q{2009-12-18}
+  s.date = %q{2010-03-02}
   s.description = %q{basic helpers and authentication methods for using warden with sinatra also providing some hooks into Rack::Flash}
   s.email = %q{justin.smestad@gmail.com}
   s.executables = ["autospec", "css2sass", "edit_json.rb", "haml", "html2haml", "jeweler", "prettify_json.rb", "rackup", "rake", "rcov", "rubyforge", "sass", "spec", "yard-graph", "yardoc", "yri"]
@@ -36,7 +36,6 @@ Gem::Specification.new do |s|
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
-  s.has_rdoc = false
   s.homepage = %q{http://github.com/jsmestad/sinatra_warden}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
@@ -56,14 +55,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<sinatra>, [">= 0.9.4"])
-      s.add_runtime_dependency(%q<warden>, [">= 0.5.3"])
+      s.add_runtime_dependency(%q<warden>, [">= 0.5.0"])
     else
       s.add_dependency(%q<sinatra>, [">= 0.9.4"])
-      s.add_dependency(%q<warden>, [">= 0.5.3"])
+      s.add_dependency(%q<warden>, [">= 0.5.0"])
     end
   else
     s.add_dependency(%q<sinatra>, [">= 0.9.4"])
-    s.add_dependency(%q<warden>, [">= 0.5.3"])
+    s.add_dependency(%q<warden>, [">= 0.5.0"])
   end
 end
 
