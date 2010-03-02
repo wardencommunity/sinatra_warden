@@ -39,7 +39,7 @@ module Sinatra
       app.helpers Warden::Helpers
 
       app.set :auth_failure_path, '/'
-      app.set :auth_success_path, lambda { back }
+      app.set :auth_success_path, '/'
 
       app.set :auth_error_message,   "Could not log you in."
       app.set :auth_success_message, "You have logged in successfully."
