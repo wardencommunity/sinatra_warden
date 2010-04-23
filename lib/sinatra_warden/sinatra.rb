@@ -9,7 +9,7 @@ module Sinatra
 
       # Return session info
       #
-      # @params [Symbol] the scope to retrieve session info for
+      # @param [Symbol] the scope to retrieve session info for
       def session_info(scope=nil)
         scope ? warden.session(scope) : scope
       end
@@ -28,14 +28,14 @@ module Sinatra
 
       # Terminate the current session
       #
-      # @params [Symbol] the session scope to terminate
+      # @param [Symbol] the session scope to terminate
       def logout(scopes=nil)
         scopes ? warden.logout(scopes) : warden.logout
       end
 
       # Access the user from the current session
       #
-      # @params [Symbol] the scope for the logged in user
+      # @param [Symbol] the scope for the logged in user
       def user(scope=nil)
         scope ? warden.user(scope) : warden.user
       end
