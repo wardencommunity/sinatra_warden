@@ -18,5 +18,5 @@ group :test do
   gem 'dm-core',        '~> 0.10.1'
   gem 'bcrypt-ruby',                :require => 'bcrypt'
   gem 'haml'
-  gem 'rack-flash',                 :require => 'rack-flash'
+  gem 'rack-flash',     '~> 0.1.1', :require => 'rack-flash'
 end
