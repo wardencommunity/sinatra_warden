@@ -1,3 +1,16 @@
+Warden::Strategies.add(:password) do
+  def valid?
+    # params['email'] && params['password']
+    # p params
+    true
+  end
+
+  def authenticate!
+    u = User.authenticate(params['email'], params['password'])
+    u.nil? ? fail!("Could not log you in.") : success!(u)
+  end
+end
+
 class TestingLogin < Sinatra::Base
   register Sinatra::Warden
 
@@ -5,6 +18,7 @@ class TestingLogin < Sinatra::Base
   set :sessions, true
 
   set :auth_success_path, '/welcome'
+
   get '/dashboard' do
     authorize!('/login')
     "My Dashboard"

@@ -11,7 +11,7 @@ require 'spec/autorun'
 DataMapper.setup(:default, 'sqlite3::memory:')
 
 %w(fixtures support).each do |path|
-  Dir[ File.join(project_root, path, '/**/*.rb') ].each do |m|
+  Dir[ File.join(File.dirname(__FILE__), path, '/**/*.rb') ].each do |m|
     require m
   end
 end
@@ -29,6 +29,8 @@ Spec::Runner.configure do |config|
       use Warden::Manager do |manager|
         manager.default_strategies :password
         manager.failure_app = TestingLogin
+        manager.serialize_into_session { |user| user.id }
+        manager.serialize_from_session { |id| User.get(id) }
       end
       use Rack::Flash
       run TestingLogin

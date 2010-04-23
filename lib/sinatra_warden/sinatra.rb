@@ -2,33 +2,58 @@ module Sinatra
   module Warden
     module Helpers
 
-      # The main accessor for the warden proxy instance
+      # The main accessor to the warden middleware
       def warden
         request.env['warden']
       end
 
-      # Proxy to the authenticated? method on warden
-      def authenticated?(*args)
-        warden.authenticated?(*args)
+      # Return session info
+      #
+      # @params [Symbol] the scope to retrieve session info for
+      def session_info(scope=nil)
+        scope ? warden.session(scope) : scope
+      end
+
+      # Check the current session is authenticated to a given scope
+      def authenticated?(scope=nil)
+        scope ? warden.authenticated?(scope) : warden.authenticated?
       end
       alias_method :logged_in?, :authenticated?
 
-      # Access the currently logged in user
-      def user(*args)
-        warden.user(*args)
+      # Authenticate a user against defined strategies
+      def authenticate(*args)
+        warden.authenticate!(*args)
+      end
+      alias_method :login, :authenticate
+
+      # Terminate the current session
+      #
+      # @params [Symbol] the session scope to terminate
+      def logout(scopes=nil)
+        scopes ? warden.logout(scopes) : warden.logout
+      end
+
+      # Access the user from the current session
+      #
+      # @params [Symbol] the scope for the logged in user
+      def user(scope=nil)
+        scope ? warden.user(scope) : warden.user
       end
       alias_method :current_user, :user
 
-      # Set the currently logged in user
-      #   Usage: self.user = @user
+      # Store the logged in user in the session
       #
-      # @param [User] the user you want to log in
-      def user=(new_user)
-        warden.set_user(new_user)
+      # @param [Object] the user you want to store in the session
+      # @option opts [Symbol] :scope The scope to assign the user
+      # @example Set John as the current user
+      #   user = User.find_by_name('John')
+      def user=(new_user, opts={})
+        warden.set_user(new_user, opts)
       end
       alias_method :current_user=, :user=
 
       # Require authorization for an action
+      #
       # @param [String] path to redirect to if user is unauthenticated
       def authorize!(failure_path=nil)
         redirect(failure_path ? failure_path : options.auth_failure_path) unless authenticated?
@@ -49,13 +74,13 @@ module Sinatra
       app.set :auth_success_message, "You have logged in successfully."
       app.set :auth_use_erb, false
       app.set :auth_login_template, :login
-      
+
       # OAuth Specific Settings
       app.set :auth_use_oauth, false
 
       app.post '/unauthenticated/?' do
         status 401
-        flash[:error] = (env['warden'].message || options.auth_error_message) if defined?(Rack::Flash)
+        env['x-rack.flash'][:error] = options.auth_error_message if defined?(Rack::Flash)
         options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
       end
 
@@ -64,15 +89,15 @@ module Sinatra
           session[:request_token] = @auth_oauth_request_token.token
           session[:request_token_secret] = @auth_oauth_request_token.secret
           redirect @auth_oauth_request_token.authorize_url
-        else          
+        else
           options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
         end
       end
 
       app.get '/oauth_callback/?' do
         if options.auth_use_oauth
-          env['warden'].authenticate!
-          flash[:success] = options.auth_success_message if defined?(Rack::Flash)
+          authenticate
+          env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
           redirect options.auth_success_path
         else
           redirect options.auth_failure_path
@@ -80,15 +105,15 @@ module Sinatra
       end
 
       app.post '/login/?' do
-        env['warden'].authenticate!
-        flash[:success] = options.auth_success_message if defined?(Rack::Flash)
+        authenticate
+        env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
         redirect options.auth_success_path
       end
 
       app.get '/logout/?' do
         authorize!
-        env['warden'].logout(:default)
-        flash[:success] = options.auth_success_message if defined?(Rack::Flash)
+        logout
+        env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
         redirect options.auth_success_path
       end
     end

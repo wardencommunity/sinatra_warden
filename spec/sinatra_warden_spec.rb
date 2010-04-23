@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Sinatra::Warden" do
+
   before(:each) do
     @user = User.create(:email => 'justin.smestad@gmail.com', :password => 'thedude')
   end
@@ -52,6 +53,7 @@ describe "Sinatra::Warden" do
     end
 
     context "the user helper" do
+
       before(:each) do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
         last_request.env['warden'].authenticated?.should be_true
@@ -77,6 +79,7 @@ describe "Sinatra::Warden" do
     end
 
     context "the logged_in/authenticated? helper" do
+
       before(:each) do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
         last_request.env['warden'].authenticated?.should be_true
@@ -98,6 +101,7 @@ describe "Sinatra::Warden" do
     end
 
     context "the warden helper" do
+
       before(:each) do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
         last_request.env['warden'].authenticated?.should be_true
@@ -115,32 +119,31 @@ describe "Sinatra::Warden" do
 
     it "should return a success message" do
       post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-      last_request.env['rack.session'][:__FLASH__][:success].should == "You have logged in successfully."
+      last_request.env['x-rack.flash'][:success].should == "You have logged in successfully."
     end
 
     it "should return an error message" do
       post '/login', 'email' => 'bad', 'password' => 'wrong'
-      last_request.env['rack.session'][:__FLASH__][:error].should == "Could not log you in."
+      last_request.env['x-rack.flash'][:error].should == "Could not log you in."
     end
 
   end
 
   context "OAuth support" do
     context "when enabled" do
-      before(:each) do
+      before do
+        pending
         #TestingLogin.set(:auth_use_oauth, true)
         #@app = app
       end
 
       it "should redirect to authorize_url" do
-        pending
         get '/login'
         follow_redirect!
         last_request.url.should == "http://twitter.com/oauth/authorize"
       end
 
       it "should redirect to a custom authorize_url, if set" do
-        pending
         get '/login'
         follow_redirect!
         last_request.url.should == "http://facebook.com"

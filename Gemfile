@@ -1,8 +1,8 @@
-source :gemcutter
+source 'http://rubygems.org'
 
 group :runtime do
   gem 'sinatra',        '>= 0.9.4'
-  gem 'warden',         '>= 0.5.0'
+  gem 'warden',         '>= 0.10.3'
 end
 
 group :test do
@@ -10,7 +10,7 @@ group :test do
   gem 'jeweler',        '~> 1.3.0'
   gem 'bundler',        '~> 0.9.7'
   gem 'rspec',          '~> 1.2.9', :require => 'spec'
-  gem 'yard'
+  gem 'yard',           '>= 0.5.4'
   gem 'rack-test',      '~> 0.5.0', :require => 'rack/test'
   gem 'rcov'
 
@@ -18,5 +18,5 @@ group :test do
   gem 'dm-core',        '~> 0.10.1'
   gem 'bcrypt-ruby',                :require => 'bcrypt'
   gem 'haml'
-  gem 'rack-flash',                 :require => 'rack/flash'
+  gem 'rack-flash',                 :require => 'rack-flash'
 end
