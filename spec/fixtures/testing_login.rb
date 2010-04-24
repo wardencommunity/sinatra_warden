@@ -49,3 +49,7 @@ class TestingLogin < Sinatra::Base
   end
 
 end
+
+class TestingLoginWithReferrer < TestingLogin
+  set :auth_use_referrer, true
+end 

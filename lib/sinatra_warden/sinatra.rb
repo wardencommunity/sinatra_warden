@@ -56,7 +56,10 @@ module Sinatra
       #
       # @param [String] path to redirect to if user is unauthenticated
       def authorize!(failure_path=nil)
-        redirect(failure_path ? failure_path : options.auth_failure_path) unless authenticated?
+        unless authenticated?
+          session[:return_to] = request.path if options.auth_use_referrer
+          redirect(failure_path ? failure_path : options.auth_failure_path)
+        end
       end
 
     end
@@ -69,6 +72,10 @@ module Sinatra
 
       app.set :auth_failure_path, '/'
       app.set :auth_success_path, '/'
+      # Setting this to true will store last request URL
+      # into a user's session so that to redirect back to it
+      # upon successful authentication
+      app.set :auth_use_referrer, false
 
       app.set :auth_error_message,   "Could not log you in."
       app.set :auth_success_message, "You have logged in successfully."
@@ -107,7 +114,8 @@ module Sinatra
       app.post '/login/?' do
         authenticate
         env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
-        redirect options.auth_success_path
+        redirect options.auth_use_referrer && session[:return_to] ? session.delete(:return_to) : 
+                 options.auth_success_path
       end
 
       app.get '/logout/?' do
