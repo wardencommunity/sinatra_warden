@@ -45,19 +45,7 @@ describe "Sinatra::Warden" do
     end
     
     context "when auth_use_referrer is set to true" do
-      def app
-        Rack::Builder.app do
-          use Rack::Session::Cookie
-          use Warden::Manager do |manager|
-            manager.default_strategies :password
-            manager.failure_app = TestingLogin
-            manager.serialize_into_session { |user| user.id }
-            manager.serialize_from_session { |id| User.get(id) }
-          end
-          use Rack::Flash
-          run TestingLoginWithReferrer
-        end
-      end
+      def app; app_with_referrer; end
       
       it "should store referrer in user's session" do
         get '/dashboard'
@@ -85,6 +73,17 @@ describe "Sinatra::Warden" do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
         follow_redirect!
         last_request.path.should == '/welcome'
+      end
+    end
+    
+    context "TestingLoginAsRackApp" do
+      def app; @app ||= TestingLoginAsRackApp; end
+      
+      # what happens here is you'll eventually get
+      # "stack too deep" error if the following test fails
+      it "should not get in a loop" do
+        post '/login', :email => 'bad', :password => 'password'
+        last_request.path.should == '/unauthenticated'
       end
     end
   end

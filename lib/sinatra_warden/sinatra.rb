@@ -87,6 +87,7 @@ module Sinatra
 
       app.post '/unauthenticated/?' do
         status 401
+        warden.custom_failure! if warden.config.failure_app == self.class
         env['x-rack.flash'][:error] = options.auth_error_message if defined?(Rack::Flash)
         options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
       end
