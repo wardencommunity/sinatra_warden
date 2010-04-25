@@ -43,6 +43,7 @@ Please read the wiki (http://wiki.github.com/jsmestad/sinatra_warden) for more i
 * Justin Smestad (http://github.com/jsmestad)
 * Daniel Neighman (http://github.com/hassox)
 * Shane Hanna (http://github.com/shanna)
+* Alex - crhym3 (http://github.com/crhym3)
 
 == Copyright
 
