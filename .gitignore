@@ -19,5 +19,6 @@ rdoc
 pkg
 bin
 vendor
+.bundle
 
 ## PROJECT::SPECIFIC

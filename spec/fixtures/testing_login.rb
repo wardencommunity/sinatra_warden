@@ -49,3 +49,20 @@ class TestingLogin < Sinatra::Base
   end
 
 end
+
+class TestingLoginWithReferrer < TestingLogin
+  set :auth_use_referrer, true
+end
+
+class TestingLoginAsRackApp < TestingLogin
+  use Rack::Session::Cookie
+  use Warden::Manager do |manager|
+    manager.default_strategies :password
+    manager.failure_app = TestingLoginAsRackApp
+    manager.serialize_into_session { |user| user.id }
+    manager.serialize_from_session { |id| User.get(id) }
+  end
+  use Rack::Flash
+  
+  set :auth_failure_path, '/login'
+end

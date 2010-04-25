@@ -23,8 +23,21 @@ Spec::Runner.configure do |config|
     DataMapper.auto_migrate!
   end
 
+  # default app
   def app
-    @app ||= Rack::Builder.app do
+    @app ||= define_app TestingLogin
+  end
+  
+  # app with auth_use_referrer enabled
+  def app_with_referrer
+    @app ||= define_app TestingLoginWithReferrer
+  end
+  
+  private 
+  
+  # :which should be a sinatra app
+  def define_app(which)
+    Rack::Builder.app do
       use Rack::Session::Cookie
       use Warden::Manager do |manager|
         manager.default_strategies :password
@@ -33,7 +46,7 @@ Spec::Runner.configure do |config|
         manager.serialize_from_session { |id| User.get(id) }
       end
       use Rack::Flash
-      run TestingLogin
+      run which
     end
   end
 end

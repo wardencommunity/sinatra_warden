@@ -27,6 +27,65 @@ describe "Sinatra::Warden" do
       get '/logout'
       last_request.env['warden'].authenticated?.should == false
     end
+    
+    context "auth_use_referrer is disabled" do
+      it "should not store :return_to" do
+        get '/dashboard'
+        follow_redirect!
+        last_request.session[:return_to].should be_nil
+      end
+    
+      it "should redirect to a default success URL" do
+        get '/dashboard'
+        follow_redirect!
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        follow_redirect!
+        last_request.path.should == '/welcome'
+      end
+    end
+    
+    context "when auth_use_referrer is set to true" do
+      def app; app_with_referrer; end
+      
+      it "should store referrer in user's session" do
+        get '/dashboard'
+        follow_redirect!
+        last_request.session[:return_to].should == "/dashboard"
+      end
+      
+      it "should redirect to stored return_to URL" do
+        get '/dashboard'
+        follow_redirect!
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        follow_redirect!
+        last_request.path.should == '/dashboard'
+      end
+      
+      it "should remove :return_to from session" do
+        get '/dashboard'
+        follow_redirect!
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        follow_redirect!
+        last_request.session[:return_to].should be_nil
+      end
+      
+      it "should default to :auth_success_path if there wasn't a return_to" do
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        follow_redirect!
+        last_request.path.should == '/welcome'
+      end
+    end
+    
+    context "TestingLoginAsRackApp" do
+      def app; @app ||= TestingLoginAsRackApp; end
+      
+      # what happens here is you'll eventually get
+      # "stack too deep" error if the following test fails
+      it "should not get in a loop" do
+        post '/login', :email => 'bad', :password => 'password'
+        last_request.path.should == '/unauthenticated'
+      end
+    end
   end
 
   context "the helpers" do
