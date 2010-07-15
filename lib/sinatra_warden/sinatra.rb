@@ -30,7 +30,7 @@ module Sinatra
       #
       # @param [Symbol] the session scope to terminate
       def logout(scopes=nil)
-        scopes ? warden.logout(scopes) : warden.logout
+        scopes ? warden.logout(scopes) : warden.logout(warden.config.default_scope)
       end
 
       # Access the user from the current session
