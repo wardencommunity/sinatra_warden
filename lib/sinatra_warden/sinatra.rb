@@ -79,7 +79,7 @@ module Sinatra
 
       app.set :auth_error_message,   "Could not log you in."
       app.set :auth_success_message, "You have logged in successfully."
-      app.set :auth_use_erb, false
+      app.set :auth_template_renderer, :haml
       app.set :auth_login_template, :login
 
       # OAuth Specific Settings
@@ -89,7 +89,7 @@ module Sinatra
         status 401
         warden.custom_failure! if warden.config.failure_app == self.class
         env['x-rack.flash'][:error] = options.auth_error_message if defined?(Rack::Flash)
-        options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
+        self.send(options.auth_template_renderer, options.auth_login_template)
       end
 
       app.get '/login/?' do
@@ -98,7 +98,7 @@ module Sinatra
           session[:request_token_secret] = @auth_oauth_request_token.secret
           redirect @auth_oauth_request_token.authorize_url
         else
-          options.auth_use_erb ? erb(options.auth_login_template) : haml(options.auth_login_template)
+          self.send(options.auth_template_renderer, options.auth_login_template)
         end
       end
 
