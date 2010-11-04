@@ -1,3 +1,6 @@
+require 'rack/flash'
+require "rack/test"
+
 Warden::Strategies.add(:password) do
   def valid?
     # params['email'] && params['password']

@@ -3,65 +3,40 @@
 # Instead, edit Jeweler::Tasks in Rakefile, and run the gemspec command
 # -*- encoding: utf-8 -*-
 
+require File.expand_path("../lib/sinatra_warden/version", __FILE__)
+
 Gem::Specification.new do |s|
   s.name = %q{sinatra_warden}
-  s.version = "0.3.1"
-
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.version     = SinatraWarden::VERSION
+  s.platform    = Gem::Platform::RUBY
   s.authors = ["Justin Smestad", "Daniel Neighman"]
-  s.date = %q{2010-07-15}
-  s.description = %q{basic helpers and authentication methods for using warden with sinatra also providing some hooks into Rack::Flash}
   s.email = %q{justin.smestad@gmail.com}
-  s.extra_rdoc_files = [
-    "LICENSE",
-     "README.rdoc"
-  ]
-  s.files = [
-    ".document",
-     ".gitignore",
-     "Gemfile",
-     "LICENSE",
-     "README.rdoc",
-     "Rakefile",
-     "VERSION",
-     "lib/sinatra_warden.rb",
-     "lib/sinatra_warden/sinatra.rb",
-     "sinatra_warden.gemspec",
-     "spec/fixtures/basic_strategy.rb",
-     "spec/fixtures/testing_login.rb",
-     "spec/fixtures/user.rb",
-     "spec/fixtures/views/login.haml",
-     "spec/sinatra_warden_spec.rb",
-     "spec/spec.opts",
-     "spec/spec_helper.rb"
-  ]
-  s.homepage = %q{http://github.com/jsmestad/sinatra_warden}
-  s.rdoc_options = ["--charset=UTF-8"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
   s.summary = %q{authentication system for using warden with sinatra}
-  s.test_files = [
-    "spec/fixtures/basic_strategy.rb",
-     "spec/fixtures/testing_login.rb",
-     "spec/fixtures/user.rb",
-     "spec/sinatra_warden_spec.rb",
-     "spec/spec_helper.rb"
-  ]
+  s.description = %q{basic helpers and authentication methods for using warden with sinatra also providing some hooks into Rack::Flash}
 
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
+  s.required_rubygems_version = ">= 1.3.6"
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<sinatra>, [">= 0.9.4"])
-      s.add_runtime_dependency(%q<warden>, [">= 0.10.3"])
-    else
-      s.add_dependency(%q<sinatra>, [">= 0.9.4"])
-      s.add_dependency(%q<warden>, [">= 0.10.3"])
-    end
-  else
-    s.add_dependency(%q<sinatra>, [">= 0.9.4"])
-    s.add_dependency(%q<warden>, [">= 0.10.3"])
-  end
+  s.rdoc_options = ["--charset=UTF-8"]
+  
+  s.add_dependency 'sinatra', '>= 0.9.4'
+  s.add_dependency 'warden',  '>= 0.10.3'
+  
+  s.add_development_dependency 'rspec', '~> 1.2.9'
+  s.add_development_dependency 'yard', '>= 0.5.4'
+  s.add_development_dependency 'rack-test', '~> 0.5.0'
+  s.add_development_dependency 'rcov'
+  s.add_development_dependency 'rake'
+
+  s.add_development_dependency 'do_sqlite3', '~> 0.10.0'
+  s.add_development_dependency 'dm-core', '~> 1.0'
+  s.add_development_dependency 'dm-sqlite-adapter'
+  s.add_development_dependency 'dm-migrations'
+  s.add_development_dependency 'bcrypt-ruby'
+  s.add_development_dependency 'haml'
+  s.add_development_dependency 'rack-flash', '~> 0.1.1'
+  
+  s.files        = `git ls-files`.split("\n")
+  s.executables  = `git ls-files`.split("\n").map{|f| f =~ /^bin\/(.*)/ ? $1 : nil}.compact
+  s.require_path = 'lib'
 end
 

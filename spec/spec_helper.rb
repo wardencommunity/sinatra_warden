@@ -1,4 +1,3 @@
-Bundler.require(:default, :runtime, :test)
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
@@ -7,7 +6,8 @@ ENV['RACK_ENV'] ||= 'test'
 require 'sinatra_warden'
 require 'spec'
 require 'spec/autorun'
-
+require 'dm-core'
+require 'dm-migrations'
 DataMapper.setup(:default, 'sqlite3::memory:')
 
 %w(fixtures support).each do |path|
