@@ -18,8 +18,8 @@ Gem::Specification.new do |s|
 
   s.rdoc_options = ["--charset=UTF-8"]
   
-  s.add_dependency 'sinatra', '>= 0.9.4'
-  s.add_dependency 'warden',  '>= 0.10.3'
+  s.add_dependency 'sinatra', '>= 1.0.0'
+  s.add_dependency 'warden',  '~> 1.0'
   
   s.add_development_dependency 'rspec', '~> 1.2.9'
   s.add_development_dependency 'yard', '>= 0.5.4'

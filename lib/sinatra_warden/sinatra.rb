@@ -1,4 +1,5 @@
-require 'sinatra'
+require 'sinatra/base'
+
 module Sinatra
   module Warden
     module Helpers
