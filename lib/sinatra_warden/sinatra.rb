@@ -81,6 +81,7 @@ module Sinatra
 
       app.set :auth_error_message,   "Could not log you in."
       app.set :auth_success_message, "You have logged in successfully."
+      app.set :logout_message, "You have logged out successfully."
       app.set :auth_template_renderer, :haml
       app.set :auth_login_template, :login
 
@@ -117,14 +118,14 @@ module Sinatra
       app.post '/login/?' do
         authenticate
         env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
-        redirect options.auth_use_referrer && session[:return_to] ? session.delete(:return_to) : 
+        redirect options.auth_use_referrer && session[:return_to] ? session.delete(:return_to) :
                  options.auth_success_path
       end
 
       app.get '/logout/?' do
         authorize!
         logout
-        env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
+        env['x-rack.flash'][:success] = options.logout_message if defined?(Rack::Flash)
         redirect options.auth_success_path
       end
     end

@@ -176,9 +176,15 @@ describe "Sinatra::Warden" do
 
   context "Rack::Flash integration" do
 
-    it "should return a success message" do
+    it "should return a success message when logging in" do
       post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
       last_request.env['x-rack.flash'][:success].should == "You have logged in successfully."
+    end
+
+    it "should return a success message when logging out" do
+      post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+      get  '/logout'
+      last_request.env['x-rack.flash'][:success].should == "You have logged out successfully."
     end
 
     it "should return an error message" do
