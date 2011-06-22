@@ -74,6 +74,11 @@ module Sinatra
 
       app.set :auth_failure_path, '/'
       app.set :auth_success_path, '/'
+      # If the user is already logged in, we can throw
+      # them into another place other than
+      # :auth_login_template
+      app.set :auth_accepted_path, '/' # e.g. '/account'
+
       # Setting this to true will store last request URL
       # into a user's session so that to redirect back to it
       # upon successful authentication
@@ -99,6 +104,8 @@ module Sinatra
           session[:request_token] = @auth_oauth_request_token.token
           session[:request_token_secret] = @auth_oauth_request_token.secret
           redirect @auth_oauth_request_token.authorize_url
+        elsif logged_in?
+          redirect options.auth_accepted_path
         else
           self.send(options.auth_template_renderer, options.auth_login_template)
         end

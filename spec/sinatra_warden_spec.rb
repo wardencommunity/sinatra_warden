@@ -1,4 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+#require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require File.expand_path(File.dirname(__FILE__)) + '/spec_helper.rb'
+#require File.dirname(__FILE__) + '/spec_helper.rb'
 
 describe "Sinatra::Warden" do
 
@@ -19,6 +21,14 @@ describe "Sinatra::Warden" do
     it "should allow us to login as that user" do
       post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
       last_request.env['warden'].authenticated?.should == true
+    end
+
+    it "redirect from login page if we're logged in" do
+      post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+      last_request.env['warden'].authenticated?.should == true
+      get '/login'
+      follow_redirect!
+      last_request.path.should == '/'
     end
 
     it "should allow us to logout after logging in" do
