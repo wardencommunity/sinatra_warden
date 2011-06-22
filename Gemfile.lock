@@ -58,5 +58,7 @@ DEPENDENCIES
   rake
   rcov
   rspec (~> 1.2.9)
+  sinatra (>= 1.0.0)
   sinatra_warden!
+  warden (~> 1.0)
   yard (>= 0.5.4)
