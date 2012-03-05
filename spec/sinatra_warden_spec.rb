@@ -74,6 +74,18 @@ describe "Sinatra::Warden" do
         follow_redirect!
         last_request.path.should == '/welcome'
       end
+
+      it "should keep an existing return_to intact" do
+        get '/dashboard'
+        follow_redirect!
+
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'wrong password'
+        last_request.session[:return_to].should == "/dashboard"
+
+        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
+        follow_redirect!
+        last_request.path.should == "/dashboard"
+      end
     end
     
     context "TestingLoginAsRackApp" do

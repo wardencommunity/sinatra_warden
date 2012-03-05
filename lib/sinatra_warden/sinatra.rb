@@ -59,7 +59,7 @@ module Sinatra
       # @param [String] path to redirect to if user is unauthenticated
       def authorize!(failure_path=nil)
         unless authenticated?
-          session[:return_to] = request.path if options.auth_use_referrer
+          session[:return_to] = request.path if options.auth_use_referrer #&& !session[:return_to]
           redirect(failure_path ? failure_path : options.auth_failure_path)
         end
       end
