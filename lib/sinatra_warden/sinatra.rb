@@ -59,8 +59,8 @@ module Sinatra
       # @param [String] path to redirect to if user is unauthenticated
       def authorize!(failure_path=nil)
         unless authenticated?
-          session[:return_to] = request.path if options.auth_use_referrer
-          redirect(failure_path ? failure_path : options.auth_failure_path)
+          session[:return_to] = request.path if settings.auth_use_referrer
+          redirect(failure_path ? failure_path : settings.auth_failure_path)
         end
       end
 
@@ -90,42 +90,42 @@ module Sinatra
       app.post '/unauthenticated/?' do
         status 401
         warden.custom_failure! if warden.config.failure_app == self.class
-        env['x-rack.flash'][:error] = options.auth_error_message if defined?(Rack::Flash)
-        self.send(options.auth_template_renderer, options.auth_login_template)
+        env['x-rack.flash'][:error] = settings.auth_error_message if defined?(Rack::Flash)
+        self.send(settings.auth_template_renderer, settings.auth_login_template)
       end
 
       app.get '/login/?' do
-        if options.auth_use_oauth && !@auth_oauth_request_token.nil?
+        if settings.auth_use_oauth && !@auth_oauth_request_token.nil?
           session[:request_token] = @auth_oauth_request_token.token
           session[:request_token_secret] = @auth_oauth_request_token.secret
           redirect @auth_oauth_request_token.authorize_url
         else
-          self.send(options.auth_template_renderer, options.auth_login_template)
+          self.send(settings.auth_template_renderer, settings.auth_login_template)
         end
       end
 
       app.get '/oauth_callback/?' do
-        if options.auth_use_oauth
+        if settings.auth_use_oauth
           authenticate
-          env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
-          redirect options.auth_success_path
+          env['x-rack.flash'][:success] = settings.auth_success_message if defined?(Rack::Flash)
+          redirect settings.auth_success_path
         else
-          redirect options.auth_failure_path
+          redirect settings.auth_failure_path
         end
       end
 
       app.post '/login/?' do
         authenticate
-        env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
-        redirect options.auth_use_referrer && session[:return_to] ? session.delete(:return_to) : 
-                 options.auth_success_path
+        env['x-rack.flash'][:success] = settings.auth_success_message if defined?(Rack::Flash)
+        redirect settings.auth_use_referrer && session[:return_to] ? session.delete(:return_to) : 
+                 settings.auth_success_path
       end
 
       app.get '/logout/?' do
         authorize!
         logout
-        env['x-rack.flash'][:success] = options.auth_success_message if defined?(Rack::Flash)
-        redirect options.auth_success_path
+        env['x-rack.flash'][:success] = settings.auth_success_message if defined?(Rack::Flash)
+        redirect settings.auth_success_path
       end
     end
   end # Warden
