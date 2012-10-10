@@ -17,7 +17,7 @@ module Sinatra
 
       # Check the current session is authenticated to a given scope
       def authenticated?(scope=nil)
-        scope ? warden.authenticated?(scope) : warden.authenticated?
+        scope ? warden.authenticated?(:scope => scope) : warden.authenticated?
       end
       alias_method :logged_in?, :authenticated?
 
@@ -69,7 +69,9 @@ module Sinatra
       app.helpers Warden::Helpers
 
       # Enable Sessions
-      app.set :sessions, true
+      unless defined?(Rack::Session::Cookie)
+        app.set :sessions, true
+      end
 
       app.set :auth_failure_path, '/'
       app.set :auth_success_path, '/'
