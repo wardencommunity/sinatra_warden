@@ -8,6 +8,7 @@ require 'spec'
 require 'spec/autorun'
 require 'dm-core'
 require 'dm-migrations'
+require 'rack'
 DataMapper.setup(:default, 'sqlite3::memory:')
 
 %w(fixtures support).each do |path|
@@ -27,17 +28,17 @@ Spec::Runner.configure do |config|
   def app
     @app ||= define_app TestingLogin
   end
-  
+
   # app with auth_use_referrer enabled
   def app_with_referrer
     @app ||= define_app TestingLoginWithReferrer
   end
-  
-  private 
-  
+
+  private
+
   # :which should be a sinatra app
   def define_app(which)
-    Rack::Builder.app do
+    Rack::Builder.new do
       use Rack::Session::Cookie
       use Warden::Manager do |manager|
         manager.default_strategies :password

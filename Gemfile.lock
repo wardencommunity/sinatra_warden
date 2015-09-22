@@ -6,7 +6,7 @@ PATH
       warden (~> 1.0)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     addressable (2.2.2)
     bcrypt-ruby (2.1.2)
@@ -32,8 +32,7 @@ GEM
       rack
     rack-test (0.5.6)
       rack (>= 1.0)
-    rake (0.8.7)
-    rcov (0.9.9)
+    rake (10.4.2)
     rspec (1.2.9)
     sinatra (1.1.0)
       rack (~> 1.1)
@@ -41,7 +40,7 @@ GEM
     tilt (1.1)
     warden (1.0.1)
       rack (>= 1.0.0)
-    yard (0.6.1)
+    yard (0.8.7.6)
 
 PLATFORMS
   ruby
@@ -56,9 +55,9 @@ DEPENDENCIES
   rack-flash (~> 0.1.1)
   rack-test (~> 0.5.0)
   rake
-  rcov
   rspec (~> 1.2.9)
-  sinatra (>= 1.0.0)
   sinatra_warden!
-  warden (~> 1.0)
   yard (>= 0.5.4)
+
+BUNDLED WITH
+   1.10.6

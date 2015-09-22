@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec', '~> 1.2.9'
   s.add_development_dependency 'yard', '>= 0.5.4'
   s.add_development_dependency 'rack-test', '~> 0.5.0'
-  s.add_development_dependency 'rcov'
   s.add_development_dependency 'rake'
 
   s.add_development_dependency 'do_sqlite3', '~> 0.10.0'
