@@ -29,7 +29,6 @@ GEM
     rack (1.4.1)
     rack-flash3 (1.0.1)
       rack
-      rack
     rack-protection (1.2.0)
       rack
     rack-test (0.6.2)
@@ -66,3 +65,6 @@ DEPENDENCIES
   simplecov
   sinatra_warden!
   yard (>= 0.5.4)
+
+BUNDLED WITH
+   1.10.6
