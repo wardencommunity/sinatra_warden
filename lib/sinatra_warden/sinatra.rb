@@ -118,8 +118,7 @@ module Sinatra
       app.post '/login/?' do
         authenticate
         env['x-rack.flash'][:success] = settings.auth_success_message if defined?(Rack::Flash)
-        redirect settings.auth_use_referrer && session[:return_to] ? session.delete(:return_to) : 
-          settings.auth_success_path
+        redirect settings.auth_use_referrer && session[:return_to] ? session.delete(:return_to) : settings.auth_success_path
       end
 
       app.get '/logout/?' do

@@ -39,11 +39,11 @@ Spec::Runner.configure do |config|
     @app ||= define_app TestingLoginWithReferrer
   end
 
-  private 
+private
 
   # :which should be a sinatra app
   def define_app(which)
-    Rack::Builder.app do
+    Rack::Builder.new do
       use Rack::Session::Cookie
       use Warden::Manager do |manager|
         manager.default_strategies :password

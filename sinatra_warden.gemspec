@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'yard', '>= 0.5.4'
   s.add_development_dependency 'rack-test', '~> 0.6.2'
   s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'rake'
 
   s.add_development_dependency 'do_sqlite3', '~> 0.10.0'
   s.add_development_dependency 'dm-core', '~> 1.0'
