@@ -1,9 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
-
 describe "Sinatra::Warden" do
+  include Warden::Test::Helpers
 
   before(:each) do
     @user = User.create(:email => 'justin.smestad@gmail.com', :password => 'thedude')
+  end
+
+  after{ Warden.test_reset! }
+
+  def registered_user
+    User.first(:email => 'justin.smestad@gmail.com')
   end
 
   it "should be a valid user" do
@@ -27,14 +33,14 @@ describe "Sinatra::Warden" do
       get '/logout'
       last_request.env['warden'].authenticated?.should == false
     end
-    
+
     context "auth_use_referrer is disabled" do
       it "should not store :return_to" do
         get '/dashboard'
         follow_redirect!
         last_request.session[:return_to].should be_nil
       end
-    
+
       it "should redirect to a default success URL" do
         get '/dashboard'
         follow_redirect!
@@ -43,24 +49,22 @@ describe "Sinatra::Warden" do
         last_request.path.should == '/welcome'
       end
     end
-    
+
     context "when auth_use_referrer is set to true" do
       def app; app_with_referrer; end
-      
+
       it "should store referrer in user's session" do
         get '/dashboard'
-        follow_redirect!
         last_request.session[:return_to].should == "/dashboard"
       end
-      
+
       it "should redirect to stored return_to URL" do
         get '/dashboard'
-        follow_redirect!
-        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        follow_redirect!
+        last_request.session[:return_to].should == '/dashboard'
+        login_as registered_user
         last_request.path.should == '/dashboard'
       end
-      
+
       it "should remove :return_to from session" do
         get '/dashboard'
         follow_redirect!
@@ -68,22 +72,22 @@ describe "Sinatra::Warden" do
         follow_redirect!
         last_request.session[:return_to].should be_nil
       end
-      
+
       it "should default to :auth_success_path if there wasn't a return_to" do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
         follow_redirect!
         last_request.path.should == '/welcome'
       end
     end
-    
+
     context "TestingLoginAsRackApp" do
       def app; @app ||= TestingLoginAsRackApp; end
-      
+
       # what happens here is you'll eventually get
       # "stack too deep" error if the following test fails
       it "should not get in a loop" do
         post '/login', :email => 'bad', :password => 'password'
-        last_request.path.should == '/unauthenticated'
+        last_request.env['warden.options'][:action].should == 'unauthenticated'
       end
     end
   end
@@ -104,8 +108,7 @@ describe "Sinatra::Warden" do
       end
 
       it "should allow access if user is logged in" do
-        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        last_request.env['warden'].authenticated?.should be_true
+        login_as registered_user
         get '/dashboard'
         last_response.body.should == "My Dashboard"
       end
@@ -113,24 +116,25 @@ describe "Sinatra::Warden" do
 
     context "the user helper" do
 
-      before(:each) do
-        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        last_request.env['warden'].authenticated?.should be_true
-      end
-
       it "should be aliased to current_user" do
+        login_as registered_user
         get '/admin'
         last_response.body.should == "Welcome #{@user.email}"
       end
 
       it "should allow assignment of the user (user=)" do
-        john = User.create(:email => 'john.doe@hotmail.com', :password => 'secret')
+        login_as registered_user
+        get '/dashboard'
         last_request.env['warden'].user.should == @user
-        post '/login_as', 'email' => 'john.doe@hotmail.com', 'password' => 'secret'
+
+        john = User.create(:email => 'john.doe@hotmail.com', :password => 'secret')
+        login_as john
+        get '/dashboard'
         last_request.env['warden'].user.should == john
       end
 
       it "should return the current logged in user" do
+        login_as registered_user
         get '/account'
         last_response.body.should == "#{@user.email}'s account page"
       end
@@ -139,17 +143,15 @@ describe "Sinatra::Warden" do
 
     context "the logged_in/authenticated? helper" do
 
-      before(:each) do
-        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        last_request.env['warden'].authenticated?.should be_true
-      end
-
       it "should be aliased as logged_in?" do
+        login_as registered_user
         get '/check_login'
         last_response.body.should == "Hello Moto"
       end
 
       it "should return false when a user is not authenticated" do
+        login_as registered_user
+
         get '/logout'
         last_request.env['warden'].authenticated?.should be_false
 
@@ -160,11 +162,6 @@ describe "Sinatra::Warden" do
     end
 
     context "the warden helper" do
-
-      before(:each) do
-        post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-        last_request.env['warden'].authenticated?.should be_true
-      end
 
       it "returns the environment variables from warden" do
         get '/warden'

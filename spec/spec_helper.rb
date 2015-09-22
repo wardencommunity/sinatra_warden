@@ -8,7 +8,12 @@ require 'spec'
 require 'spec/autorun'
 require 'dm-core'
 require 'dm-migrations'
-require 'rack'
+
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start
+end
+
 DataMapper.setup(:default, 'sqlite3::memory:')
 
 %w(fixtures support).each do |path|
@@ -34,7 +39,7 @@ Spec::Runner.configure do |config|
     @app ||= define_app TestingLoginWithReferrer
   end
 
-  private
+private
 
   # :which should be a sinatra app
   def define_app(which)
@@ -42,7 +47,7 @@ Spec::Runner.configure do |config|
       use Rack::Session::Cookie
       use Warden::Manager do |manager|
         manager.default_strategies :password
-        manager.failure_app = TestingLogin
+        manager.failure_app = which
         manager.serialize_into_session { |user| user.id }
         manager.serialize_from_session { |id| User.get(id) }
       end
