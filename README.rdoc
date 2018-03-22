@@ -1,6 +1,6 @@
 = Sinatra::Warden
 
-A Sinatra (http://github.com/sinatra/sinatra) module that provides authentication for your Sinatra application through Warden (http://github.com/hassox/warden).
+A Sinatra (http://github.com/sinatra/sinatra) module that provides authentication for your Sinatra application through Warden (http://github.com/wardencommunity/warden).
 
 == Usage
 
@@ -23,11 +23,11 @@ A Sinatra (http://github.com/sinatra/sinatra) module that provides authenticatio
   
 == More Information
 
-Please read the wiki (http://wiki.github.com/jsmestad/sinatra_warden) for more information on more advanced configurations.
+Please read the wiki (http://wiki.github.com/wardencommunity/sinatra_warden) for more information on more advanced configurations.
 
 == Note on Patches/Pull Requests
 
-  $ git clone git://github.com/jsmestad/sinatra_warden.git
+  $ git clone git://github.com/wardencommunity/sinatra_warden.git
   $ cd sinatra_warden
   $ bundle install
   $ bundle exec rake
@@ -47,4 +47,4 @@ Please read the wiki (http://wiki.github.com/jsmestad/sinatra_warden) for more i
 
 == Copyright
 
-Copyright (c) 2009 Justin Smestad. See LICENSE for details.
+Copyright (c) 2009-2017 Justin Smestad. See LICENSE for details.
