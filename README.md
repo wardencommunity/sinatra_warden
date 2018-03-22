@@ -1,9 +1,10 @@
-= Sinatra::Warden
+# Sinatra::Warden
 
-A Sinatra (http://github.com/sinatra/sinatra) module that provides authentication for your Sinatra application through Warden (http://github.com/wardencommunity/warden).
+A [Sinatra](http://github.com/sinatra/sinatra) module that provides authentication for your Sinatra application through [Warden](http://github.com/wardencommunity/warden).
 
-== Usage
+## Usage
 
+```ruby
   require 'sinatra'
   require 'sinatra_warden'
 
@@ -20,17 +21,20 @@ A Sinatra (http://github.com/sinatra/sinatra) module that provides authenticatio
       haml :dashboard
     end
   end
-  
-== More Information
+```
 
-Please read the wiki (http://wiki.github.com/wardencommunity/sinatra_warden) for more information on more advanced configurations.
+## More Information
 
-== Note on Patches/Pull Requests
+Please read the [wiki](http://wiki.github.com/wardencommunity/sinatra_warden) for more information on more advanced configurations.
 
+## Note on Patches/Pull Requests
+
+```
   $ git clone git://github.com/wardencommunity/sinatra_warden.git
   $ cd sinatra_warden
   $ bundle install
   $ bundle exec rake
+```
 
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -38,13 +42,13 @@ Please read the wiki (http://wiki.github.com/wardencommunity/sinatra_warden) for
 * Commit, do not mess with rakefile, version, or history.
 * Send me a pull request. Bonus points for topic branches.
 
-== Contributors
+## Contributors
 
 * Justin Smestad (http://github.com/jsmestad)
 * Daniel Neighman (http://github.com/hassox)
 * Shane Hanna (http://github.com/shanna)
 * Alex - crhym3 (http://github.com/crhym3)
 
-== Copyright
+## Copyright
 
 Copyright (c) 2009-2017 Justin Smestad. See LICENSE for details.
