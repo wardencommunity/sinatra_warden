@@ -58,7 +58,7 @@ class TestingLoginWithReferrer < TestingLogin
 end
 
 class TestingLoginAsRackApp < TestingLogin
-  use Rack::Session::Cookie
+  use Rack::Session::Cookie, secret: 'Long John Silver knows it'
   use Warden::Manager do |manager|
     manager.default_strategies :password
     manager.failure_app = TestingLoginAsRackApp
