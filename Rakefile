@@ -1,18 +1,14 @@
 require "bundler/gem_tasks"
 
 begin
-  # require 'rspec/core/rake_task'
-  require 'spec/rake/spectask'
-
-  Spec::Rake::SpecTask.new('coverage') do |spec|
-    spec.libs << 'lib' << 'spec'
-    spec.pattern = 'spec/**/*_spec.rb'
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new('coverage') do |spec|
+    spec.rspec_opts = '-I lib -I spec'
     ENV['COVERAGE'] = "true"
   end
 
-  Spec::Rake::SpecTask.new(:spec) do |spec|
-    spec.libs << 'lib' << 'spec'
-    spec.spec_files = FileList['spec/**/*_spec.rb']
+  RSpec::Core::RakeTask.new(:spec) do |spec|
+    spec.rspec_opts = '-I lib -I spec'
   end
 
   task default: :spec
