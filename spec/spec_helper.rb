@@ -5,7 +5,6 @@ ENV['RACK_ENV'] ||= 'test'
 
 require 'sinatra_warden'
 require 'rspec'
-require 'rspec/autorun'
 require 'dm-core'
 require 'dm-migrations'
 
