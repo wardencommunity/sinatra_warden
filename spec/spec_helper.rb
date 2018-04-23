@@ -4,8 +4,8 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 ENV['RACK_ENV'] ||= 'test'
 
 require 'sinatra_warden'
-require 'spec'
-require 'spec/autorun'
+require 'rspec'
+require 'rspec/autorun'
 require 'dm-core'
 require 'dm-migrations'
 
@@ -22,7 +22,7 @@ DataMapper.setup(:default, 'sqlite3::memory:')
   end
 end
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include(Rack::Test::Methods)
 
   config.before(:each) do

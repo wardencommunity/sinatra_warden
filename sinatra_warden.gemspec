@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'sinatra', '~> 1.4.6'
   s.add_dependency 'warden',  '~> 1.2.3'
   
-  s.add_development_dependency 'rspec', '~> 1.2.9'
+  s.add_development_dependency 'rspec', '~> 2.14'
   s.add_development_dependency 'yard', '>= 0.5.4'
   s.add_development_dependency 'rack-test', '~> 0.6.2'
   s.add_development_dependency 'simplecov'
