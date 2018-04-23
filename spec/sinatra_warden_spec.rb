@@ -13,32 +13,32 @@ describe "Sinatra::Warden" do
   end
 
   it "should be a valid user" do
-    @user.new?.should be_falsey
+    expect(@user.new?).to be_falsey
   end
 
   it "should create successfully" do
-    @user.password.should == "thedude"
-    User.authenticate('justin.smestad@gmail.com', 'thedude').should == @user
+    expect(@user.password).to eq("thedude")
+    expect(User.authenticate('justin.smestad@gmail.com', 'thedude')).to eq(@user)
   end
 
   context "the authentication system" do
     it "should allow us to login as that user" do
       post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-      last_request.env['warden'].authenticated?.should == true
+      expect(last_request.env['warden'].authenticated?).to eq(true)
     end
 
     it "should allow us to logout after logging in" do
       post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-      last_request.env['warden'].authenticated?.should == true
+      expect(last_request.env['warden'].authenticated?).to eq(true)
       get '/logout'
-      last_request.env['warden'].authenticated?.should == false
+      expect(last_request.env['warden'].authenticated?).to eq(false)
     end
 
     context "auth_use_referrer is disabled" do
       it "should not store :return_to" do
         get '/dashboard'
         follow_redirect!
-        last_request.session[:return_to].should be_nil
+        expect(last_request.session[:return_to]).to be_nil
       end
 
       it "should redirect to a default success URL" do
@@ -46,7 +46,7 @@ describe "Sinatra::Warden" do
         follow_redirect!
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
         follow_redirect!
-        last_request.path.should == '/welcome'
+        expect(last_request.path).to eq('/welcome')
       end
     end
 
@@ -55,14 +55,14 @@ describe "Sinatra::Warden" do
 
       it "should store referrer in user's session" do
         get '/dashboard'
-        last_request.session[:return_to].should == "/dashboard"
+        expect(last_request.session[:return_to]).to eq("/dashboard")
       end
 
       it "should redirect to stored return_to URL" do
         get '/dashboard'
-        last_request.session[:return_to].should == '/dashboard'
+        expect(last_request.session[:return_to]).to eq('/dashboard')
         login_as registered_user
-        last_request.path.should == '/dashboard'
+        expect(last_request.path).to eq('/dashboard')
       end
 
       it "should remove :return_to from session" do
@@ -70,13 +70,13 @@ describe "Sinatra::Warden" do
         follow_redirect!
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
         follow_redirect!
-        last_request.session[:return_to].should be_nil
+        expect(last_request.session[:return_to]).to be_nil
       end
 
       it "should default to :auth_success_path if there wasn't a return_to" do
         post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
         follow_redirect!
-        last_request.path.should == '/welcome'
+        expect(last_request.path).to eq('/welcome')
       end
     end
 
@@ -87,7 +87,7 @@ describe "Sinatra::Warden" do
       # "stack too deep" error if the following test fails
       it "should not get in a loop" do
         post '/login', :email => 'bad', :password => 'password'
-        last_request.env['warden.options'][:action].should == 'unauthenticated'
+        expect(last_request.env['warden.options'][:action]).to eq('unauthenticated')
       end
     end
   end
@@ -98,19 +98,19 @@ describe "Sinatra::Warden" do
       it "should redirect to root (default) if not logged in" do
         get '/admin'
         follow_redirect!
-        last_request.url.should == 'http://example.org/'
+        expect(last_request.url).to eq('http://example.org/')
       end
 
       it "should redirect to the passed path if available" do
         get '/dashboard'
         follow_redirect!
-        last_request.url.should == 'http://example.org/login'
+        expect(last_request.url).to eq('http://example.org/login')
       end
 
       it "should allow access if user is logged in" do
         login_as registered_user
         get '/dashboard'
-        last_response.body.should == "My Dashboard"
+        expect(last_response.body).to eq("My Dashboard")
       end
     end
 
@@ -119,24 +119,24 @@ describe "Sinatra::Warden" do
       it "should be aliased to current_user" do
         login_as registered_user
         get '/admin'
-        last_response.body.should == "Welcome #{@user.email}"
+        expect(last_response.body).to eq("Welcome #{@user.email}")
       end
 
       it "should allow assignment of the user (user=)" do
         login_as registered_user
         get '/dashboard'
-        last_request.env['warden'].user.should == @user
+        expect(last_request.env['warden'].user).to eq(@user)
 
         john = User.create(:email => 'john.doe@hotmail.com', :password => 'secret')
         login_as john
         get '/dashboard'
-        last_request.env['warden'].user.should == john
+        expect(last_request.env['warden'].user).to eq(john)
       end
 
       it "should return the current logged in user" do
         login_as registered_user
         get '/account'
-        last_response.body.should == "#{@user.email}'s account page"
+        expect(last_response.body).to eq("#{@user.email}'s account page")
       end
 
     end
@@ -146,17 +146,17 @@ describe "Sinatra::Warden" do
       it "should be aliased as logged_in?" do
         login_as registered_user
         get '/check_login'
-        last_response.body.should == "Hello Moto"
+        expect(last_response.body).to eq("Hello Moto")
       end
 
       it "should return false when a user is not authenticated" do
         login_as registered_user
 
         get '/logout'
-        last_request.env['warden'].authenticated?.should be_falsey
+        expect(last_request.env['warden'].authenticated?).to be_falsey
 
         get '/check_login'
-        last_response.body.should == "Get out!"
+        expect(last_response.body).to eq("Get out!")
       end
 
     end
@@ -165,7 +165,7 @@ describe "Sinatra::Warden" do
 
       it "returns the environment variables from warden" do
         get '/warden'
-        last_response.body.should_not be_nil
+        expect(last_response.body).not_to be_nil
       end
 
     end
@@ -175,12 +175,12 @@ describe "Sinatra::Warden" do
 
     it "should return a success message" do
       post '/login', 'email' => 'justin.smestad@gmail.com', 'password' => 'thedude'
-      last_request.env['x-rack.flash'][:success].should == "You have logged in successfully."
+      expect(last_request.env['x-rack.flash'][:success]).to eq("You have logged in successfully.")
     end
 
     it "should return an error message" do
       post '/login', 'email' => 'bad', 'password' => 'wrong'
-      last_request.env['x-rack.flash'][:error].should == "Could not log you in."
+      expect(last_request.env['x-rack.flash'][:error]).to eq("Could not log you in.")
     end
 
   end
@@ -195,13 +195,13 @@ describe "Sinatra::Warden" do
       xit "should redirect to authorize_url" do
         get '/login'
         follow_redirect!
-        last_request.url.should == "http://twitter.com/oauth/authorize"
+        expect(last_request.url).to eq("http://twitter.com/oauth/authorize")
       end
 
       xit "should redirect to a custom authorize_url, if set" do
         get '/login'
         follow_redirect!
-        last_request.url.should == "http://facebook.com"
+        expect(last_request.url).to eq("http://facebook.com")
       end
 
     end
