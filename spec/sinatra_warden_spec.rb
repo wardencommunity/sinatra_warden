@@ -13,7 +13,7 @@ describe "Sinatra::Warden" do
   end
 
   it "should be a valid user" do
-    @user.new?.should be_false
+    @user.new?.should be_falsey
   end
 
   it "should create successfully" do
@@ -153,7 +153,7 @@ describe "Sinatra::Warden" do
         login_as registered_user
 
         get '/logout'
-        last_request.env['warden'].authenticated?.should be_false
+        last_request.env['warden'].authenticated?.should be_falsey
 
         get '/check_login'
         last_response.body.should == "Get out!"
