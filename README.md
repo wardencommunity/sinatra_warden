@@ -23,9 +23,32 @@ A [Sinatra](http://github.com/sinatra/sinatra) module that provides authenticati
   end
 ```
 
-## More Information
+## Options
 
-Please read the [wiki](http://wiki.github.com/wardencommunity/sinatra_warden) for more information on more advanced configurations.
+`Sinatra::Warden` lets you override options to customize functionality. You can place them anywhere after executing `register Sinatra::Warden` in your application.
+
+Configurations are set using the set action: `set :setting_name, value`
+
+### Configuration Settings
+
+| Setting Name | Type | Description |
+| ---          | ---  | ---         |
+| `:auth_success_path` | String/Proc | The path you want to redirect to on authentication success. Defaults to `"/"`. |
+| `:auth_failure_path` | String/Proc | The path you want to redirect to on authentication failure. (e.g. `"/error"`) Defaults to `lambda { back }`. |
+| `:auth_success_message` | String | The `flash[:success]` message to display (requires Rack::Flash). Defaults to `"You have logged in successfully."` |
+| `:auth_error_message` | String | The `flash[:error]` message to display (requires Rack::Flash). Defaults to `"Could not log you in."` |
+| `:auth_template_renderer` | String | Template renderer to use. Defaults to `haml`, can also use `erb` |
+| `:auth_login_template` | Symbol | The path to the login form you want to use with Sinatra::Warden. Defaults to `:login`. |
+
+### OAuth Configuration Settings
+
+_Available since sinatra_warden >= 1.6.x_
+
+| Setting Name | Type | Description |
+| ---          | ---  | --- |
+| `:auth_use_oauth` | Boolean | Use OAuth authorization for the `"/login"` route. Defaults to `false`. |
+| `:auth_oauth_authorization_url` | Proc/String | The path you want to redirect to for OAuth authorization (e.g. `lambda { consumer.get_request_token.authorize_url }`. |
+
 
 ## Note on Patches/Pull Requests
 
